@@ -12,9 +12,11 @@
     $status_publish="";
     $status_arsip="";
     $disabled="";
+    $cfp=false;
     if(isset($data)){
         $action="update-issue-artikel";
         $tema=$data['name'];
+        $cfp=$data['cfp'];
         $year=$data['year'];
         $description=$data['description'];
         $flyer=$data['flyer'];
@@ -28,7 +30,7 @@
         }else{
             $status_arsip="selected";
         }
-        $disabled="disabled";
+        
     }
 @endphp
 <div class="card card-custom gutter-b">
@@ -58,7 +60,15 @@
                     <select class="form-control required_field" name="status" {!! $disabled !!}>
                         <option value="">Pilih Status</option>
                         <option value="1" {!! $status_call_for_paper !!}>Call For Paper</option>
+                        <option value="2" {!! $status_publish !!}>Publish</option>
+                        <option value="3" {!! $status_arsip !!}>Archive</option>
                     </select>
+                </div>
+            </div>
+            <div class='row mb-6'>
+                <div class='col-lg-8'>
+                    <label>Call For Paper</label>
+                    {!! $cfp === 1 ? "<span style='color:red;'>Ya</span>" : "<span style='color:green;'>Tidak</span>" !!}
                 </div>
             </div>
             <div class='row mb-6'>
@@ -99,5 +109,5 @@
         </form>
     </div>
 </div>
-<script src="{!! asset('../resources/views/assets/js/fn_arunika.js') !!}"></script>
-<script src="{!! asset('../resources/views/assets/js/arunika_services_config.js?q=1234') !!}"></script>
+<script src="{!! asset('assets/js/fn_arunika.js') !!}"></script>
+<script src="{!! asset('assets/js/arunika_services_config.js?q=1234') !!}"></script>

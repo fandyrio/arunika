@@ -35,5 +35,5 @@
             </tr>
     </table>
 </form>
-<script src="{!! asset('../resources/views/assets/js/fn_arunika.js') !!}"></script>
-<script src="{!! asset('../resources/views/assets/js/arunika_services.js') !!}"></script>
+<script src="{!! asset('assets/js/fn_arunika.js') !!}"></script>
+<script src="{!! asset('assets/js/arunika_services.js') !!}"></script>

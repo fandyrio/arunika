@@ -19,12 +19,15 @@ Route::get('/', function () {
 
 Route::get('register', 'registerController@index')->name('register')->middleware('isNotLogin');
 Route::post('validate-input', 'registerController@validateNIP')->name('validate-nip')->middleware('isNotLogin');
-Route::get('login', 'loginController@index')->name('login')->middleware('isNotLogin');
+//Route::get('login', 'loginController@index')->name('login')->middleware('isNotLogin');
+Route::get('login', function(){
+    cas()->authenticate();
+});
 Route::post('login', 'loginController@login')->name('check-login')->middleware('isNotLogin');
 Route::get('logout', 'loginController@logout')->name('logout')->middleware('auth');
 
 
-Route::get('dashboard', 'dashboardController@index')->name('dashboard')->middleware('auth');
+Route::get('dashboard', 'dashboardController@index')->name('dashboard')->middleware('cas.auth');
 
 Route::get('form-new-artikel/{token}', 'artikelController@formNewArtikel')->name('form-new-artikel')->middleware('auth');
 Route::post('form-data-pribadi', 'artikelController@formDataPribadi')->name('form-data-pribadi')->middleware('auth');
@@ -44,6 +47,11 @@ Route::post('save-editor', 'editorialTeamController@saveEditor')->name('save-edi
 Route::post('remove-editor', 'editorialTeamController@removeEditor')->name('remove-editor')->middleware('auth');
 
 Route::get('list-config-web', 'configController@listConfig')->name('list-config-web')->middleware('auth');
+Route::get('list-pengumuman', 'artikelController@listPengumuman')->name('list-pengumuman')->middleware('auth');
+Route::post('add-pengumuman-arunika', 'artikelController@addPengumuman')->name('add-pengumuman-arunika')->middleware('auth');
+Route::post('save-pengumuman', 'artikelController@savePengumuman')->name('save-pengumuman')->middleware('auth');
+Route::post('edit-pengumuman', 'artikelController@editPengumuman')->name('edit-pengumuman')->middleware('auth');
+Route::post('update-pengumuman', 'artikelController@updatePengumuman')->name('update-pengumuman')->middleware('auth');
 Route::post('add-new-config', 'configController@formAddConfig')->name('add-new-config')->middleware('auth');
 Route::post('save-config', 'configController@saveWebContent')->name('save-config')->middleware('auth');
 Route::post('finish-page-artikel', 'artikelController@finishPage')->name('finish-page-artikel')->middleware('auth');
@@ -95,12 +103,17 @@ Route::get('list-issue-artikel', 'issueArtikelController@index')->name('list-iss
 Route::post('add-issue-artikel', 'issueArtikelController@formAddIssue')->name('add-issue-artikel')->middleware('auth');
 Route::post('save-issue-artikel', 'issueArtikelController@saveIssueArtikel')->name('save-issue-artikel')->middleware('auth');
 Route::post('update-issue-artikel', 'issueArtikelController@updateIssueArtikel')->name('update-issue-artikel')->middleware('auth');
+Route::post('edit-config', 'configController@editConfig')->name('edit-config')->middleware('auth');
+Route::post('update-config', 'configController@updateConfig')->name('update-config')->middleware('auth');
+Route::get('list-draft', 'artikelController@listDraft')->name('list-draft')->middleware('auth');
+
 Route::get('home', 'arunikaController@index')->name('home');
 Route::post('edit-issue-artikel', 'issueArtikelController@getIssueById')->name('edit-issue-artikel')->middleware('auth');
 Route::post('delete-issue-artikel', 'issueArtikelController@deleteIssueArtikel')->name('delete-issue-artikel')->middleware('auth');
 Route::post('form-tambah-tema', 'artikelController@formTambahTema')->name('form-tambah-tema')->middleware('auth');
 Route::post('update-tema', 'artikelController@updateTema')->name('update-tema')->middleware('auth');
 Route::get('issue/{code}', 'arunikaController@getListArtikelByIssue')->name('issue');
+Route::get('category/{key}/{any?}', 'arunikaController@getArtikelByCategory')->name('category-by-key-category');
 
 Route::get('baca-artikel/{edoc_name}/{id}', 'arunikaController@bacaArtikel')->name('artikel');
 Route::get('tags/{tag}', 'arunikaController@getArtikelByTag')->name('tag');
@@ -110,5 +123,11 @@ Route::get('arsip', 'arunikaController@arsipIssue')->name('arsip-issue');
 Route::get('search', 'arunikaController@searchArtikel')->name('search-artikel');
 Route::get('early-view', 'arunikaController@earlyview')->name('early-view');
 Route::post('search', 'arunikaController@searchResult')->name('search');
+Route::get('download-artikel/{file}/{type}', 'arunikaController@downloadFile')->name('download-file');
+Route::post('validate-reader', 'arunikaController@setReader')->name('validate-reader');
+Route::get('all-category', 'arunikaController@getAllCategory')->name('all-category');
+Route::post('resize-img-view', 'arunikaController@resizeImageView')->name('resize-img-view');
+Route::get('syarat-penulisan', 'arunikaController@getSyaratPenulisan')->name('syarat-penulisan');
+Route::get('checklist-penilaian', 'arunikaController@getChecklistPenilaian')->name('checklist-penulisan');
 //Route::get('test-pdf', 'artikelController@testpdf')->name('test-pdf');
 //Route::get('generateAdmin', 'registerController@createUserAdmin')->name('generate-admin');

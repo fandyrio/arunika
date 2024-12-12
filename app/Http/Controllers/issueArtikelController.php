@@ -50,9 +50,9 @@ class issueArtikelController extends Controller
                 $size=$file->getSize();
                 $type=$file->getMimeType();
                 if($size <= 3145728){
-                    if($type === "image/jpg" || $type === "image/png" || $type === "image/jpeg"){
+                    if($type === "image/jpg" || $type === "image/png" || $type === "image/jpeg" || $type === "image/webp"){
                         $filename='flyer_'.date('YmdHis').'_'.$file->getClientOriginalName();
-                        $destination="../resources/upload/image";
+                        $destination="upload/image";
                         $file->move($destination, $filename);
                         $path=$destination."/".$filename;
                         if(File::exists($path)){
@@ -111,6 +111,7 @@ class issueArtikelController extends Controller
                     'name'=>'required',
                     'description'=>'required',
                     'year'=>['required', 'digits:4'],
+                    "status"=>["required"],
                 ]);
                 $upload=true;
                 $path=null;
@@ -122,8 +123,8 @@ class issueArtikelController extends Controller
                         $size=$file->getSize();
                         $type=$file->getMimeType();
                         if($size <= 3145728){
-                            if($type === "image/jpg" || $type === "image/png" || $type === "image/jpeg"){
-                                    $destination="../resources/upload/image";
+                            if($type === "image/jpg" || $type === "image/png" || $type === "image/jpeg" || $type === "image/webp"){
+                                    $destination="upload/image";
                                     $filename=$file->getClientOriginalName();
                                     $file->move($destination, $filename);
                                     $path=$destination."/".$filename;
@@ -147,6 +148,7 @@ class issueArtikelController extends Controller
                     $check_data->name=$request->name;
                     $check_data->description=$request->description;
                     $check_data->year=$request->year;
+                    $check_data->status=$request->status;
                     if($path !== null){
                         $check_data->flyer=$path;
                     }

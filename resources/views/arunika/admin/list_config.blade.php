@@ -23,14 +23,17 @@
                     <td>{!! $list_config['config_name'] !!}</td>
                     <td>
                         <?=  $list_config['config_value'] === null ? '' : "<b>Text :". $list_config['config_value']."</b>";  ?>
-                        <?= $list_config['file_value'] === null ? '' : "<b>File : </b> <a href='download/".Crypt::encrypt($list_config['file_value'])."/image_config'>Dowmload</a>" ?>
+                        <?= $list_config['file_value'] === null ? '' : "<b>File : </b> <a href='download/".Crypt::encrypt($list_config['file_value'])."/image_config'>Download</a>" ?>
+                    </td>
+                    <td>
+                        <button class='btn btn-info btn-sm edit' data-pattern="config" data-token_i="{!! Crypt::encrypt($list_config['id']) !!}">Edit</button>
                     </td>
                 </tr>
+                @php $no++; @endphp
                 @endforeach
-                @php $no++ @endphp
             @endif
         </table>
     </div>
 </div>
-<script src="{!! asset('../resources/views/assets/js/fn_arunika.js') !!}"></script>
-<script src="{!! asset('../resources/views/assets/js/arunika_services_config.js?q=test') !!}"></script>
+<script src="{!! asset('assets/js/fn_arunika.js') !!}"></script>
+<script src="{!! asset('assets/js/arunika_services_config.js?q=test1') !!}"></script>

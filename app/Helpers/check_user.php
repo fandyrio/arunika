@@ -4,6 +4,7 @@
     use Illuminate\Support\Facades\Auth;
     use App\Editorial_team;
     use App\Artikel;
+    use App\Resize;
     use App\Reviewer_artikel;
     if(!function_exists('checkUserByNip')){
         function checkUserByNip($nip, $action){
@@ -69,6 +70,24 @@
                 return true;
             }
             return false;
+        }
+    }
+    if(!function_exists('resizeImage')){
+        function resizeImage($path, $width, $height, $type, $prefix){
+            // *** 1) Initialise / load image
+            $real_path="img/no-profile,jpg";
+            if($type === "artikel-img"){
+                $real_path="upload/image/".$path;
+            }
+            $resizeObj = new Resize($real_path);
+            
+            // *** 2) Resize image (options: exact, portrait, landscape, auto, crop)
+            $resizeObj -> resizeImage($width, $height, 'landscape');
+    
+            // *** 3) Save image ('image-name', 'quality [int]')
+            $new_path="img/".$prefix."_".$path;
+            $resizeObj -> saveImage($new_path, 100);
+            return $new_path;
         }
     }
 ?>

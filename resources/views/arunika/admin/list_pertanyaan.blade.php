@@ -43,5 +43,5 @@
         <span style='float:right;font-weight:bold'>Total data : {!! $total !!}</span>
     </div>
 </div>
-<script src="{!! asset('../resources/views/assets/js/fn_arunika.js') !!}"></script>
-<script src="{!! asset('../resources/views/assets/js/arunika_services_config.js?q=test1') !!}"></script>
+<script src="{!! asset('assets/js/fn_arunika.js') !!}"></script>
+<script src="{!! asset('assets/js/arunika_services_config.js?q=test1') !!}"></script>

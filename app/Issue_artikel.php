@@ -9,5 +9,5 @@ class Issue_artikel extends Model
 {
     use HasFactory;
     protected $table="issue_artikel";
-    protected $fillable=['id', 'code_issue', 'name', 'description', 'year', 'flyer'];
+    protected $fillable=['id', 'code_issue', 'name', 'description', 'status', 'cfp', 'year', 'flyer'];
 }

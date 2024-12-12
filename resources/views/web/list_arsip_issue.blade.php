@@ -5,7 +5,7 @@
     <div class="card d-flex blur justify-content-center shadow-lg my-sm-0 my-sm-6 mb-5" style='margin-top:8rem;'>
         <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2 bg-transparent">
         <div class="bg-gradient-info shadow-info border-radius-lg p-3">
-            <h3 class="text-white text-primary mb-0">{!! $title  !!}</h3>
+            <h6 class="text-white text-primary mb-0">{!! $title  !!}</h6>
         </div>
         </div>
         <div class="card-body">

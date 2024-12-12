@@ -38,5 +38,5 @@
         <button class='btn btn-danger btn-md edit' onClick="loadDataArtikel('form')">Edit</button>
         <button class='btn btn-info btn-md tabs' data-target="confirmation" style='float:right;'>Selanjutnya ></button>
 </div>
-<script src="{!! asset('../resources/views/assets/js/arunika_services.js') !!}"></script>
-<script src="{!! asset('../resources/views/assets/js/fn_arunika.js') !!}"></script>
+<!-- <script src="{!! asset('assets/js/arunika_services.js') !!}"></script>
+<script src="{!! asset('assets/js/fn_arunika.js') !!}"></script> -->

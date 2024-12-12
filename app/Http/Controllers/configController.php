@@ -28,8 +28,8 @@ class configController extends Controller
             $validate=$request->validate([
                 'config_name' => 'required'
             ]);
-            if($request->value_text !== null || $request->value_text !== ""  || $request->value_file !== null){
-                if($request->value_text !== null || $request->value_text !== ""){
+            if(($request->value_text !== null || $request->value_text !== "")  && $request->value_file !== null){
+                if($request->value_text !== null && $request->value_text !== ""){
                     $text_value=$request->value_text;
                 }
                 if($request->value_file !== null){
@@ -37,16 +37,16 @@ class configController extends Controller
                     $size=$file->getSize();
                     $type=$file->getMimeType();
                     if($size <= 6291456){
-                        $type_allowed=["application/msword", "application/vnd.openxmlformats-officedocument.wordprocessingml.document", "application/pdf", "image/png", "image/jpeg", "image/jpg"];
+                        $type_allowed=["application/msword", "application/vnd.openxmlformats-officedocument.wordprocessingml.document", "application/pdf", "image/png", "image/jpeg", "image/jpg", "image/webp", "image/gif"];
                         if(in_array($type, $type_allowed)){
-                            $destination="../resources/upload/config";
+                            $destination="upload/config";
                             $filename=date('YmdHis')."-".$file->getClientOriginalName();
                             $file->move($destination, $filename);
                             if(File::exists($destination."/".$filename)){
                                 $path=$destination."/".$filename;
                             }
                         }else{
-                            $msg="Tipe data harus document *.pdf / *.docx / *.doc / *.rtf / *.png / *.jpg";
+                            $msg="Tipe data harus document *.pdf / *.docx / *.doc / *.rtf / *.png / *.jpg bukan ".$type;
                         }
                     }else{
                         $msg="Size harus lebih kecil dari 6 mb";
@@ -79,6 +79,83 @@ class configController extends Controller
             }
         }
         return response()->json(['status'=>$save, 'msg'=>$msg, 'callLink'=>'list-config-web']);
+    }
+    public function editConfig(Request $request){
+        try{
+
+            $config_id=Crypt::decrypt($request->token_id);
+            $get_config=Config::where('id', $config_id)->first();
+            if(!is_null($get_config)){
+                return view('arunika/admin/form_add_config', ['data'=>$get_config]);
+            }else{
+                echo "Data not found";
+            }
+        }catch(DecryptException $e){
+            echo "Invalid token";
+        }
+    }
+    public function updateConfig(Request $request){
+        $update=false;
+        $text_value=null;
+        $file_value=null;
+        $path=null;
+        $upload=true;
+        try{
+            $config_id=Crypt::decrypt($request->token_id);
+            $get_config=Config::where('id', $config_id)->first();
+            if(!is_null($get_config)){
+                $text_value=$request->value_text;
+                $file_value=$request->value_file;
+                if(($text_value !== "" || $text_value !== null) && $file_value !== null){
+                    if($text_value !== "" && $text_value !== null){
+                        $text_value=$request->value_text;
+                    }
+                    if($file_value !== null){
+                        $upload=false;
+                        $file=$request->value_file;
+                        $size=$file->getSize();
+                        $type=$file->getMimeType();
+                        if($size <= 6291456){
+                            $type_allowed=["application/msword", "application/vnd.openxmlformats-officedocument.wordprocessingml.document", "application/pdf", "image/png", "image/jpeg", "image/jpg", "image/webp", "image/gif"];
+                            if(in_array($type, $type_allowed)){
+                                $destination="upload/config";
+                                $filename=$file->getClientOriginalName();
+                                $file->move($destination, $filename);
+                                $path=$destination."/".$filename;
+                                if(File::exists($path)){
+                                    $upload=true;
+                                }else{
+                                    $msg="Terjadi kesalahan sistem saat upload file";
+                                }
+                            }else{
+                                $msg="Tipe data harus document *.pdf / *.docx / *.doc / *.rtf / *.png / *.jpg bukan ".$type;
+                            }
+                        }else{
+                            $msg="Maximum Filesize 6mb";
+                        }
+                    }
+
+                    if($upload){
+                        $get_config->config_name=$request->config_name;
+                        $get_config->config_value=$text_value;
+                        $get_config->file_value=$path;
+                        $update=$get_config->update();
+                        if($update){
+                            $msg="Berhasil mengubah data";
+                        }else{
+                            $msg="Terjadi kesalahan saat mengubah data";
+                        }
+                    }
+                }else{
+                    $msg="File atau text harus diisi";
+                }
+            }else{
+                $msg="Data tidak ditemukan ".$config_id;
+            }
+        }catch(DecryptException $e){
+            $msg="Invalid token";
+        }
+        return response()->json(['status'=>$update, 'msg'=>$msg, 'btnBack'=>'backToList']);
     }
     public function listPertanyaan($page){
         try{

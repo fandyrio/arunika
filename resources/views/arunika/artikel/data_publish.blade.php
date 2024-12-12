@@ -39,16 +39,18 @@
                     <a href="download/{!! Crypt::encrypt($data['edoc']) !!}/edoc_artikel">
                         <span class='far fa-file-word'></span> Download Doc</a>
                     @if($data['step'] === 7)
-                        <form action="update-edoc-pub">
-                        <button class='btn btn-success btn-sm changeDocPub' style='float:right;'>Ganti Edoc</button>
-                        <br /><br />
-                        <input type='hidden' name='token_a' value="{!! Crypt::encrypt($data['id']) !!}">
-                        <input type='file' class='form-control edoc_artikel_pub' style='display:none;' name='new_edoc'>
-                        </form>
-                        <span style='color:red;font-size:1rem;'><b>Catatan : </b>* Mengganti edoc dilakukan apabila ada perbaikan minor yang tidak perlu dilakukan review.</span>
+                        @if(isJM())
+                            <form action="update-edoc-pub">
+                                <button class='btn btn-success btn-sm changeDocPub' style='float:right;'>Ganti Edoc</button>
+                                <br /><br />
+                                <input type='hidden' name='token_a' value="{!! Crypt::encrypt($data['id']) !!}">
+                                <input type='file' class='form-control edoc_artikel_pub' style='display:none;' name='new_edoc'>
+                            </form>
+                            <span style='color:red;font-size:1rem;'><b>Catatan : </b>* Mengganti edoc dilakukan apabila ada perbaikan minor yang tidak perlu dilakukan review.</span>
+                        @endif
                     @else
                         <br />
-                        <a href="download/{!! Crypt::encrypt($data['edoc']) !!}/edoc_artikel">
+                        <a href="download/{!! Crypt::encrypt($data['edoc_pdf']) !!}/edoc_artikel">
                             <span class='far fa-file-pdf'></span> Download PDF</a>
                     @endif
                 </td>
@@ -78,19 +80,21 @@
         <hr />
         @if($data['step'] === 7)
         <a href="preview/{!! Crypt::encrypt($data['id']) !!}" target="_blank"><button class='btn btn-info btn-sm' style='float:right;'><span class='fas fa-search'></span> Preview</button></a>
-            @if($data['code_issue'] === null)
-                <button class='btn btn-success btn-sm' disabled><span class='fab fa-telegram-plane'></span> Direct Publish</button>
-            @else
-                <button class='btn btn-success btn-sm confirmPublish' data-target="{!! Crypt::encrypt($data['id']) !!}" onClick="confirmPublsih()"><span class='fab fa-telegram-plane'></span> Direct Publish</button>
+            @if(isJM())
+                @if($data['code_issue'] === null)
+                    <button class='btn btn-success btn-sm' disabled><span class='fab fa-telegram-plane'></span> Direct Publish</button>
+                @else
+                    <button class='btn btn-success btn-sm confirmPublish' data-target="{!! Crypt::encrypt($data['id']) !!}" onClick="confirmPublsih()"><span class='fab fa-telegram-plane'></span> Direct Publish</button>
+                @endif
+                @if($data['code_issue'] === null)
+                    <button class='btn btn-warning btn-sm addTema' data-target="{!! Crypt::encrypt($data['id']) !!}">Masukkan Tema Artikel</button>
+                @endif
             @endif
-            @if($data['code_issue'] === null)
-                <button class='btn btn-warning btn-sm addTema' data-target="{!! Crypt::encrypt($data['id']) !!}">Masukkan Tema Artikel</button>
-            @endif   
         @endif   
     </div>
 </div>
-<script src="{!! asset('../resources/views/assets/js/fn_arunika.js?q=5') !!}"></script>
-<script src="{!! asset('../resources/views/assets/js/arunika_services.js?q=3') !!}"></script>
+<script src="{!! asset('assets/js/fn_arunika.js?q=5') !!}"></script>
+<script src="{!! asset('assets/js/arunika_services.js?q=3') !!}"></script>
 <script>
     $(document).ready(function(){
         $("#textTulisan").summernote({

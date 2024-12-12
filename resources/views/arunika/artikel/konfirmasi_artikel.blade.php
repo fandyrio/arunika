@@ -17,5 +17,5 @@
         </center>
     </div>
 </div>
-<script src="{!! asset('../resources/views/assets/js/arunika_services.js?q=1') !!}"></script>
-<script src="{!! asset('../resources/views/assets/js/fn_arunika.js?q=1') !!}"></script>
+<script src="{!! asset('assets/js/arunika_services.js?q=1') !!}"></script>
+<script src="{!! asset('assets/js/fn_arunika.js?q=1') !!}"></script>

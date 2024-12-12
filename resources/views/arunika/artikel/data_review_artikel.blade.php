@@ -189,7 +189,7 @@
                             <div class="timeline-content d-flex align-items-center justify-content-between">
                                 <span class="mr-3">
                                     <h6><span style='color:#1BC5BD;font-weight:bold;'>Kirim Hasil Review ke Author / Penulis</span></h6> 
-                                    @if($data_review->data_review[$x]->jumlah_checklist_result > 0 && $data_review->data_review[$x]->jumlah_hasil_review > 0 && ($data_review->data_review[$x]->step_id === 5 || $data_review->data_review[$x]->step_id === 6) && $data_review->data_review[$x]->catatan_reviewer !== null)
+                                    @if($data_review->data_review[$x]->jumlah_checklist_result > 0 && $data_review->data_review[$x]->jumlah_hasil_review > 0 && ($data_review->data_review[$x]->step_id === 5 || $data_review->data_review[$x]->step_id === 6 || $data_review->data_review[$x]->step_id === 7 || $data_review->data_review[$x]->step_id === 8) && $data_review->data_review[$x]->catatan_reviewer !== null)
                                         <b>Dikirim oleh : </b> {!! $data_review->data_review[$x]->sent_by !!}  <br />
                                         <b>Dikirim Pada : </b>{!! $data_review->data_review[$x]->sent_at === null ? '' : date('d-M-Y', strtotime($data_review->data_review[$x]->sent_at)) !!} Pukul : {!! $data_review->data_review[$x]->sent_at === null ? '-' : date('H:i', strtotime($data_review->data_review[$x]->sent_at)) !!} wib<br /><br />
                                     @else
@@ -249,5 +249,5 @@
     </div>
 </div>
 
-<script src="{!! asset('../resources/views/assets/js/arunika_services.js?q=12345') !!}"></script>
-<script src="{!! asset('../resources/views/assets/js/fn_arunika.js') !!}"></script>
+<script src="{!! asset('assets/js/arunika_services.js?q=12345') !!}"></script>
+<script src="{!! asset('assets/js/fn_arunika.js') !!}"></script>
